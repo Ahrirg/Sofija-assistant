@@ -4,12 +4,12 @@ Large Structure:
 
 Thinking endpoints
     - [ ] Llama-cpp executable (mby)
-    - [ ] Gemma stuff
+    - [x] Gemma stuff
 
 
 Input
     - [ ] Email
-    - [ ] text input
+    - [x] text input
 
 
 Output

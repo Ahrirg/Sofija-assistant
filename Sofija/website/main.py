@@ -4,6 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 
+from ..utils.Logging import log
 from ..LLM.LLM import LLM
 
 
@@ -25,7 +26,9 @@ def history():
 
 @app.get("/ask")
 def ask(message: str):
-    return {"answer": ai.ask(message)}
+    msg = ai.ask(message)
+    log(msg)
+    return msg
 
 
 def run(

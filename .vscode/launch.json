@@ -2,10 +2,26 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Get Models",
+            "name": "Get python -m Sofija.LLM",
             "type": "debugpy",
             "request": "launch",
             "module": "Sofija.LLM",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Run python -m Sofija",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "Sofija",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "name": "Run python -m Sofija.Tasks",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "Sofija.Tasks",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}"
         }

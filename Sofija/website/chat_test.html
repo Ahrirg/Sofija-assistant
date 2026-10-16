@@ -525,6 +525,47 @@ button {
     .welcome {
         padding-top: 10vh;
     }
+    .thought-panel {
+        margin-top: 10px;
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 6px;
+        background: var(--surface-2);
+        overflow: hidden;
+    }
+
+    .thought-panel summary {
+        padding: 10px 12px;
+        color: var(--accent);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .thought-panel summary:hover {
+        background: var(--surface-3);
+    }
+
+    .thought-content {
+        padding: 12px;
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.8;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+    }
+
+    .thought-label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+    }
 }
 </style>
 </head>
@@ -663,7 +704,7 @@ function showWelcomeIfEmpty() {
     welcome.classList.toggle("hidden", messages.children.length > 0);
 }
 
-function addMessage(role, text) {
+function addMessage(role, text, thought = null) {
     const isUser = role === "user";
 
     const wrapper = document.createElement("div");
@@ -678,14 +719,39 @@ function addMessage(role, text) {
 
     const meta = document.createElement("div");
     meta.className = "message-meta";
-    meta.textContent = isUser ? "TEST SUBJECT" : "GLaDOS // RESPONSE";
+    meta.textContent = isUser
+        ? "TEST SUBJECT"
+        : "GLaDOS // RESPONSE";
 
     const bubble = document.createElement("div");
     bubble.className = "bubble";
-    // Use textContent rather than innerHTML for API-provided content.
     bubble.textContent = text;
 
     content.append(meta, bubble);
+
+    // Display thought separately, only when provided.
+    if (!isUser && typeof thought === "string" && thought.trim()) {
+        const panel = document.createElement("details");
+        panel.className = "thought-panel";
+
+        const summary = document.createElement("summary");
+        summary.textContent = "◈ VIEW THOUGHT PROCESS";
+
+        const thoughtContent = document.createElement("div");
+        thoughtContent.className = "thought-content";
+
+        const label = document.createElement("span");
+        label.className = "thought-label";
+        label.textContent = "INTERNAL ANALYSIS";
+
+        const thoughtText = document.createElement("div");
+        thoughtText.textContent = thought;
+
+        thoughtContent.append(label, thoughtText);
+        panel.append(summary, thoughtContent);
+        content.appendChild(panel);
+    }
+
     wrapper.append(avatar, content);
     messages.appendChild(wrapper);
 
@@ -694,6 +760,7 @@ function addMessage(role, text) {
 
     return wrapper;
 }
+
 
 function addTypingIndicator() {
     const wrapper = document.createElement("div");
@@ -845,11 +912,16 @@ async function sendMessage(text) {
             ? data
             : data?.answer;
 
+        const thought = typeof data === "object" && data !== null
+            ? data.thought
+            : null;
+
         if (typeof answer !== "string") {
             throw new Error("The /ask endpoint returned no string 'answer'.");
         }
 
-        addMessage("model", answer);
+        addMessage("model", answer, thought);
+
         setStatus("ready", "SYSTEM ONLINE");
 
         await refreshHistoryListOnly();
