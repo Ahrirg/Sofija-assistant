@@ -180,7 +180,7 @@ def get_headers_email(arg: list[str]) -> str:
 def get_tool_usage_prompt() -> str:
     return "".join(
         "Tool for gathering users email information, two functions"
-        "'tool:get_headers_email()' can be used to get metada data about emails their (id, sender_email, subject). Example usage 'tool:get_headers_email()'"
+        "'tool:get_headers_email()' can be used to get metadata data about emails their (id, sender_email, subject). Example usage 'tool:get_headers_email()'"
         "'tool:get_full_email(id1, id2,...)' can be used to get full data about emails their (id, sender_email, subject, text body). Example usage 'tool:get_full_email(2, 4, 5, 6)'"
     )
 
