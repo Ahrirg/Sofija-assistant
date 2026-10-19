@@ -163,7 +163,7 @@ def get_full_email(indexes: list[int]) -> str:
 
     return "\n".join(lines)
 
-def get_headers_email(arg: list[str]) -> str:
+def get_headers_email() -> str:
     emails = get_emails()
 
     lines = []
@@ -186,9 +186,9 @@ def get_tool_usage_prompt() -> str:
 
 def get_tools() -> list[dict]:
     return [
-        {"command": "get_headers_email", "args": "", "func": get_headers_email},
-        {"command": "get_full_email", "args": "int", "func": get_full_email}
+        {"command": "get_headers_email", "args": [], "func": get_headers_email},
+        {"command": "get_full_email", "args": ["int..."], "func": get_full_email}
     ]
 
 if __name__ == "__main__":
-    get_headers_email([''])
+    get_headers_email()

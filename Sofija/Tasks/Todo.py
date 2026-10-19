@@ -153,7 +153,7 @@ def get_tool_usage_prompt() -> str:
 
 def get_tools() -> list[dict]:
     return [
-        {"command": "get_tasks", "args": "", "func": get_tasks},
-        {"command": "add_task", "args": "str, str_opt", "func": add_task},
-        {"command": "update_task_status", "args": "int, status", "func": update_task_status}
+        {"command": "get_tasks", "args": [], "func": get_tasks},
+        {"command": "add_task", "args": ["str", "str_opt"], "func": add_task},
+        {"command": "update_task_status", "args": ["int", "str"], "func": update_task_status}
     ]
