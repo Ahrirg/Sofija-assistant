@@ -2,7 +2,7 @@ import json
 import os
 import time
 import ast
-from ..Tasks import Email, Todo, Search
+from ..Tasks import Email, Todo, Search, Time
 from ..utils import env, Logging
 from enum import Enum
 from urllib.request import Request, urlopen
@@ -18,6 +18,7 @@ def get_system_prompt() -> str:
         f"{Email.get_tool_usage_prompt()}\n"
         f"{Todo.get_tool_usage_prompt()}\n"
         f"{Search.get_tool_usage_prompt()}\n"
+        f"{Time.get_tool_usage_prompt()}\n"
     )
     
     return ( 
@@ -290,7 +291,7 @@ class LLM():
 
         while should_continue:
             ai_response = self.ApiEndpoint.ask(message)
-            tools = Email.get_tools() + Search.get_tools() + Todo.get_tools()
+            tools = Email.get_tools() + Search.get_tools() + Todo.get_tools() + Time.get_tools()
             tool_response = ""
 
             for tool in tools:
